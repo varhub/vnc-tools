@@ -15,6 +15,11 @@ fi
 
 FILES=$(ls -1 | grep "\.pid")
 
+if [ "x$FILES" = "x" ]; then
+        echo "There are not vnc sessions running currently"
+	exit 0
+fi
+
 if [ $(echo $FILES | wc -w) -eq 1 ]; then
 	NUM=$(echo $FILES | sed 's/.*:\(.*\)\.pid/\1/')
 else
