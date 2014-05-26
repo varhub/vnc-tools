@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Copyright (c) 2014, Victor Arribas Raigadas
+# All rights reserved.
+#
+# This software is under BSD 3-Clause License.
+# You could get a copy at http://opensource.org/licenses/BSD-3-Clause
+
+if [ -d $HOME/.vnc ]; then
+	cd $HOME/.vnc
+else
+	echo "$HOME/.vnc not found" >&2
+	exit 1
+fi
+
+FILES=$(ls -1 | grep "\.pid")
+
+if [ $(echo $FILES | wc -w) -eq 1 ]; then
+	NUM=$(echo $FILES | sed 's/.*:\(.*\)\.pid/\1/')
+else
+	echo "Multiple sessions are running"
+	for i in $FILES; do
+		echo " $i"
+	done
+	echo -n "Write the pid number that you want to close:"
+	read N
+	if [ "$(ls -1 | grep "$N.pid")" != "" ]; then
+		NUM=$N
+	else
+		echo "Number $N is invalid">&2
+		exit 1
+	fi
+fi
+
+echo "vncserver -kill :$NUM"
+vncserver -kill :$NUM

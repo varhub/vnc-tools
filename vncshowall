@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Copyright (c) 2014, Victor Arribas Raigadas
+# All rights reserved.
+#
+# This software is under BSD 3-Clause License.
+# You could get a copy at http://opensource.org/licenses/BSD-3-Clause
+
+ps -ef | grep Xvnc | grep -v grep | awk '{print $9,$1}' | sed 's/://' | sed 's/ /\t/' | sort -n
